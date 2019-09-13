@@ -1,0 +1,151 @@
+<apex:page id="YandexEdaOffer" controller="YandexEdaOfferController"
+           applyHtmlTag="false" applyBodyTag="false"
+           showHeader="false" sidebar="false" standardStylesheets="false"
+           title="Unused Title">
+    <apex:includeScript value="{!$Resource.jQuerry}"/>
+    <apex:includeScript value="{!$Resource.maskedinput}"/>
+
+
+    <style>
+        .border {
+
+            justify-content: center;
+            display: flex;
+            background-color: #FFE033;
+        }
+
+        .border-menu {
+
+            justify-content: center;
+            display: flex;
+            font-weight: normal;
+            text-align: left;
+        }
+
+        .container {
+            display: grid;
+        }
+
+        .h1 {
+            font-size: 25px;
+        }
+
+        .subcontainer {
+            font-family: Helvetica, sans-serif;
+        }
+        .subcontainer tr:nth-child(odd){
+            font-size: 8px;
+        }
+
+    </style>
+    <apex:form>
+        <div class="border">
+            <apex:image url="{!URLFOR($Resource.resources, 'image/Offer.png')}"/>
+        </div>
+        <apex:pageBlock>
+            <div class="border-menu">
+                <table class="container">
+                    <thead>
+                    <tr>
+                        <th>
+                            <span class="h1">Внесите реквизиты</span>
+                        </th>
+                        <th>
+                            <!--пустое поле-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><apex:outputLabel for="RestName" value="Название ресторана"/></td>
+                        <td><apex:inputText value="{!offer.RestName__c}" id="RestName"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="AccountFullName" value="Полное название предприятия"/></td>
+                        <td><apex:inputText id="AccountFullName" value="{!offer.AccountFullName__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td> <apex:outputLabel value="Юридический адрес" for="the"/> </td>
+                        <td>
+                            <table class="subcontainer">
+                                <tr>
+                                    <td><apex:outputLabel value="Город" for="theCity"/> </td>
+                                    <td><apex:outputLabel value="Индекс" for="theIndex"/> </td>
+                                </tr>
+                                <tr>
+                                    <td><apex:inputText value="{!offer.City__c}" id="theCity"/></td>
+                                    <td><apex:inputText size="8" value="{!offer.Index__c}" id="theIndex"/></td>
+                                </tr>
+                                <tr>
+                                    <td><apex:outputLabel value="Улица" for="theStreet"/> </td>
+                                    <td><apex:outputLabel  value="Дом, офис, кв." for="theApartments"/> </td>
+                                </tr>
+                                <tr>
+                                    <td><apex:inputText value="{!offer.Street__c}" id="theStreet"/></td>
+                                    <td><apex:inputText size="8" value="{!offer.Apartments__c}" id="theApartments"/></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="OGRN" value="Полное название предприятия"/></td>
+                        <td><apex:inputText id="OGRN" value="{!offer.OGRN__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="INN" value="ИНН"/></td>
+                        <td><apex:inputText id="INN" value="{!offer.INN__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="KPP" value="КПП"/></td>
+                        <td><apex:inputText id="KPP" value="{!offer.KPP__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="NDS" value="НДС"/></td>
+                        <td><apex:inputText id="NDS" value="{!offer.NDS__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="BankName" value="Название Банка"/></td>
+                        <td><apex:inputText id="BankName" value="{!offer.BankName__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="CheckingAcc" value="Расчетный счет"/></td>
+                        <td><apex:inputText id="CheckingAcc" value="{!offer.CheckingAcc__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="BIK" value="БИК Банка"/></td>
+                        <td><apex:inputText id="BIK" value="{!offer.BankBIK__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="CorAcc" value="Кор. Счет"/></td>
+                        <td><apex:inputText id="CorAcc" value="{!offer.CorAcc__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="Accounting_Phone" value="Телефон бухгалтерии"/></td>
+                        <td><apex:inputText id="Accounting_Phone" value="{!offer.Accounting_Phone__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="AccountingEmail" value="Электронная почта бухгалтерии"/></td>
+                        <td><apex:inputText id="AccountingEmail" value="{!offer.AccountingEmail__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="Website" value="Сайт ресторана"/></td>
+                        <td><apex:inputText id="Website" value="{!offer.Website__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="SignerName" value="Имя подписанта"/></td>
+                        <td><apex:inputText id="SignerName" value="{!offer.SignerName__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel for="SignerPosition" value="Должность подписанта"/></td>
+                        <td><apex:inputText id="SignerPosition" value="{!offer.SignerPosition__c}"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- <apex:pageBlockButtons location="bottom">
+                    <apex:commandButton action="{!save}" value="Save"/>
+                </apex:pageBlockButtons> -->
+            </div>
+        </apex:pageBlock>
+
+    </apex:form>
+</apex:page>
