@@ -101,7 +101,11 @@
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="NDS" value="НДС"/></td>
-                        <td><apex:inputText id="NDS" value="{!offer.NDS__c}"/></td>
+                        <td><apex:selectRadio id = "theNDS" value="{!offer.INN__c}">
+                                <apex:selectOptions value="{!types}">
+                                </apex:selectOptions>
+                            </apex:selectRadio>
+                        </td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="BankName" value="Название Банка"/></td>
