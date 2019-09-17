@@ -1,0 +1,7 @@
+<!--
+ - Created by user on 17.09.2019.
+ -->
+
+<aura:component description="YandexEdaCreateOffer" implements="force:lightningQuickAction">
+
+</aura:component>

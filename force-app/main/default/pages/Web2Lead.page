@@ -9,16 +9,19 @@
     <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@19.8.0/dist/js/jquery.suggestions.min.js"></script>
 
     <script type="text/javascript">
-      $( document ).ready(function() {
-        console.log( "ready!" );
-
 
       //Маска для телефона
       $(function(){
-        $("#mobile").mask("8(999) 999-9999", {
-          completed: function(){ alert("Вы ввели номер: " + this.val()); }
+        $("#phone").mask("8(999) 999-9999", {
+          completed: function(){
+            alert("Вы ввели номер: " + this.val());
+          }
         });
       });
+
+      $( document ).ready(function() {
+        console.log( "ready!" );
+
 
       //Подгрузка адресов
       $(function() {
@@ -40,11 +43,16 @@
       });
 
         // проверка телефона
-        $("input[name='mobile']").blur(function() {
-          var val = $("#mobile");
-          if(!$(this).val()) $(this).addClass("error");
+        $("input[name='phone']").blur(function(){
+          if($(this).val().length == 0) $(this).addClass("error");
           else $(this).removeClass("error");
-          console.log('val', val);
+        });
+
+
+        // проверка адрес, ул, дом
+        $("textarea[name='00N0E000006mvKz']").blur(function(){
+          if($(this).val().length == 0) $(this).addClass("error");
+          else $(this).removeClass("error");
         });
 
         // проверка Имени
@@ -81,51 +89,65 @@
         });
 
         //остановить редирект
-        $( "form" ).submit(function( event ) {
-          event.preventDefault();
+        //$( "form" ).submit(function( event ) {
+          //event.preventDefault();
+        //});
+
+        $("#myForm").submit( function() {
+          if(($("#last_name").val().length == 0)||($("#email").val().length == 0)
+          || ($("#phone").val().length == 0)||($("#company").val().length == 0)
+          ||($("#city").val().length == 0)||($("#00N0E000006mvKz").val().length == 0)){
+            alert("Не все поля заполнены");
+            return false;
+          }
+          if (!$("#00N0E000006mvL0").is(':checked')){
+            alert("Вы не согласны с условиями");
+            return false;
+          }
+
         });
-
-
-
 
       });
 
 
     </script>
-
     <style>
         .border {
-
             justify-content: center;
             display: flex;
             background-color: #FFE033;
         }
-
         .container {
-            justify-content: center;
             display: flex;
+            justify-content: center;
+            width: 100%;
             font-weight: normal;
             text-align: left;
             margin-top:20px;
         }
-
+        .container1 {
+            display: flex;
+            justify-content: center;
+            font-weight: normal;
+        }
         .btn-yellow {
             background: #FFE033;
             border: 1px solid black;
+            margin: 5px;
         }
-
         .footer {
-            display: flex;
-            justify-content: center;
+            text-align: center;
         }
 
         .error{
             outline: 1px solid red;
         }
-
         .msg {
             font-size: 10px;
             color: red;
+        }
+        .msg2 {
+            font-size: 10px;
         }
 
     </style>
@@ -139,8 +161,8 @@
             <apex:image url="{!URLFOR($Resource.resources, 'image/BecomePartner.png')}"/>
         </div>
 
-        <input type="hidden" name="oid" value="00D0E000000A7h2"/>
-       <input type="hidden" name="retURL" value="http://new-partner"/>
+        <input type="hidden" name="oid" value="00D0E000000ACnq"/>
+        <input type="hidden" name="retURL" value="https://sandbox-wallah-developer-edition.cs89.force.com/newpartner/thankyou"/>
 
         <!--  ----------------------------------------------------------------------  -->
         <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
@@ -153,32 +175,44 @@
                                                                        type="text" /></td></tr>
             <tr><td></td><td><label class="msg" id="name_error"></label></td></tr>
 
-            <tr><td> <label for="mobile" >*Телефон</label></td><td><input id="mobile" maxlength="40" name="mobile" size="20" type="text"/></td></tr>
+            <tr><td><label for="phone" >*Телефон</label></td>
+                <td><input id="phone" maxlength="40" name="phone" size="20" type="text" placeholder="8(999) 999-9999"/></td></tr>
 
             <tr><td><label for="email">*Электронная почта</label></td><td><input id="email" maxlength="80" name="email" size="20"
                                                                 type="text"/></td></tr>
-
             <tr><td></td><td><label class="msg" id="email_error"></label></td></tr>
 
-            <tr><td><label for="company">*Название ресторана</label></td><td><input id="company" maxlength="40" name="company" size="20"
-                                                                   type="text"/></td></tr>
-
+            <tr>
+                <td><label for="company">*Название ресторана</label></td>
+                <td><input id="company" maxlength="40" name="company" size="20" type="text"/></td>
+            </tr>
             <tr><td></td><td><label class="msg" id="company_error"></label></td></tr>
 
-            <tr><td><label for="city">*Город</label></td><td><input id="city" maxlength="40" name="city" size="20" type="text"/></td></tr>
-
+            <tr>
+                <td><label for="city">*Город</label></td>
+                <td><input id="city" maxlength="40" name="city" size="20" type="text"/></td>
+            </tr>
             <tr><td></td><td><label class="msg" id="city_error"></label></td></tr>
 
-            <tr><td> Адрес (ул., дом):</td><td><textarea id="00N0E000006mvKz" name="00N0E000006mvKz" type="text" wrap="soft"></textarea></td></tr>
+            <tr>
+                <td>*Адрес (ул., дом):</td>
+                <td><textarea id="00N0E000006mvKz" name="00N0E000006mvKz" type="text" wrap="soft"></textarea></td>
+            </tr>
 
-            <tr><td> <label for="url">Website</label></td><td><input id="url" maxlength="80" name="url" size="20" type="text"/></td></tr>
+            <tr>
+                <td> <label for="url">Сайт ресторана</label></td>
+                <td><input id="url" maxlength="80" name="url" size="20" type="text"/></td>
+            </tr>
+            <tr><td></td><td class="msg2">Если нет сайта, можете добавить <br/>
+                    ссылку на страницу в социальной сети</td></tr>
 
             <tr><td>Комментарии:</td><td><textarea id="00N0E000006mvL1" name="00N0E000006mvL1" type="text" wrap="soft"></textarea></td></tr>
+            <tr><td>*<input id="00N0E000006mvL0" name="00N0E000006mvL0" type="checkbox" value="1"/>Согласен</td><td></td></tr>
 
-            <tr><td><input id="00N0E000006mvL0" name="00N0E000006mvL0" type="checkbox" value="1"/></td><td>Согласен:</td></tr>
         </table>
 
-        <table class="container">
+
+        <table class="container1">
             <tr><td>Я даю ООО "Яндекс" и ООО "Яндекс.Еда" согласие на обработку моих</td></tr>
             <tr><td>персональных данных в соответствии с Федеральным Законом от 27.07.2008 года</td></tr>
             <tr><td>N152-ФЗ "О персональных данных" на условиях и для целей, определенных в этой</td></tr>
@@ -187,9 +221,10 @@
             <tr><td>достижения указанных целей, и 5 лет после их достижения.</td></tr>
         </table>
 
-            <div class="footer"><input class="btn-yellow" type="submit" name="Отправить"/>
-
-                <div>© 2019 Яндекс</div></div>
+            <div class="footer">
+                <input class="btn-yellow" type="submit" name="Submit" value="Отправить"/><br/>
+                <label>© 2019 Яндекс</label>
+            </div>
 
     </form>
 
