@@ -16,5 +16,5 @@ public class YandexEdaOfferController {
 
     public Boolean value { get; set;}
     public Boolean valueForYes { get; set;}
-    
+
 }

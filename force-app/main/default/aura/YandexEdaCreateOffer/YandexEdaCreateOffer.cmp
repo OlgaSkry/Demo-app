@@ -6,10 +6,18 @@
                 implements="force:lightningQuickActionWithoutHeader, force:hasRecordId"
                 controller="YandexEdaCreateOfferController">
     <!-- attributes -->
-    <aura:attribute name="tableRows" type="Contact[]"/>
+    <!-- <aura:attribute name="tableRows" type="Contact[]"/>-->
+     <aura:attribute name="createConfirm" type="Boolean"/>
+     <aura:attribute name="createError" type="Boolean"/>
 
-    <!-- handlers-->
+     <aura:attribute name="data" type="Object"/>
+     <aura:attribute name="columns" type="List"/>
+     <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+     <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+
+     <!-- handlers-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
 
     <!-- the container element determine the height of the datatable -->
     <div class="slds-col modal-header slds-modal__header">
@@ -17,53 +25,34 @@
     </div>
     <div class="slds-col modal-body slds-p-around--medium"
          style="height: 200px; max-height: 400px; overflow-y: auto !important">
-        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
-            <thead>
-            <tr class="slds-line-height_reset">
-                <th></th>
-                <th class="" scope="col">
-                    <div class="slds-truncate" title="Контакт">Контакт</div>
-                </th>
-                <th class="" scope="col">
-                    <div class="slds-truncate" title="Город">Ресторан</div>
-                </th>
-                <th class="" scope="col">
-                    <div class="slds-truncate" title="Адрес">Имейл</div>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <aura:if isTrue="{!!empty(v.tableRows)}">
-                <aura:iteration items="{!v.tableRows}" var="contacts">
-                    <tr class="slds-hint-parent">
-                        <td class="slds-text-align_right" role="gridcell">
-                        <span class="slds-radio">
-                        <input type="radio" id="radio-01" value="radio-01" name="options" tabindex="-1"
-                               aria-labelledby="radio-button-label-01 column-group-header"/>
-                            <label class="slds-radio__label" for="radio-01" id="radio-button-label-01">
-                                <span class="slds-radio_faux"></span>
-                                <span class="slds-form-element__label slds-assistive-text">Select item 1</span>
-                            </label>
-                        </span>
-                        </td>
-                        <th>
-                            <div class="slds-truncate">{!contacts.Name}</div>
-                        </th>
-                        <td>
-                            <div class="slds-truncate">{!contacts.Account.Name}</div>
-                        </td>
-                        <td>
-                            <div class="slds-truncate">{!contacts.Email}</div>
-                        </td>
-                    </tr>
-                </aura:iteration>
-            </aura:if>
-            </tbody>
-        </table>
+        <!-- таблица -->
+        <div style="height: 300px">
+            <h1>Selected Rows: {! v.selectedRowsCount }</h1>
+            <lightning:datatable
+                    columns="{! v.columns }"
+                    data="{! v.data }"
+                    keyField="id"
+                    maxRowSelection="{! v.maxRowSelection }"
+                    onrowselection="{! c.updateSelectedText }"/>
+        </div>
+
     </div>
+
+    <aura:if isTrue="{!v.createConfirm}">
+        <ui:message title="Ты пирожок!" severity="confirm" closable="true">
+            Оферта была создана успешно.
+        </ui:message>
+    </aura:if>
+
+    <aura:if isTrue="{!v.createError}">
+        <ui:message title="Ты не пирожок!" severity="error" closable="true">
+            Оферта уже была создана на этот аккаунт.
+        </ui:message>
+    </aura:if>
+
     <div class="slds-col modal-footer slds-modal__footer">
         <lightning:button variant="neutral" label="Cancel" onclick="{! c.cancelClick }"/>
-        <lightning:button variant="brand" label="Save" onclick="{! c.saveClick }"/>
+        <lightning:button variant="brand" label="Save" onclick="{! c.createOfferJS }"/>
     </div>
     <aura:html tag="style">
         .cuf-content {
