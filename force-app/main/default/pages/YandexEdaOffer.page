@@ -229,7 +229,7 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
+                    <tr aria-selected="false" class="slds-hint-parent">
                         <td><apex:outputLabel for="OGRN" value="ОГРН"/></td>
                         <td><apex:inputText id="OGRN" disabled="true" value="{!offer.OGRN__c}"/></td>
                     </tr>
