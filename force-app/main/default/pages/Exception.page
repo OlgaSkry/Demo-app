@@ -14,7 +14,7 @@
                 <apex:panelGroup >
                   <apex:outputText styleClass="title" value="{!$Label.site.error}">
                    <apex:param value="{!$Site.ErrorMessage}"/>
-                   <!-- this parameter needs to be italic in the site.error label -->
+                 
                   </apex:outputText>
                   <br/>
                   <br/>

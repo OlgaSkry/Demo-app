@@ -1,7 +1,6 @@
 <!--
  - Created by user on 17.09.2019.
  -->
-
 <aura:component description="YandexEdaCreateOffer"
                 implements="force:lightningQuickActionWithoutHeader, force:hasRecordId"
                 controller="YandexEdaCreateOfferController">
@@ -14,6 +13,7 @@
      <aura:attribute name="columns" type="List"/>
      <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
      <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+    <aura:attribute name="currContactId" type="String"/>
 
      <!-- handlers-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -51,7 +51,7 @@
     </aura:if>
 
     <div class="slds-col modal-footer slds-modal__footer">
-        <lightning:button variant="neutral" label="Cancel" onclick="{! c.cancelClick }"/>
+        <lightning:button variant="neutral" label="Cancel" onclick="{! c.cancelClick }" />
         <lightning:button variant="brand" label="Save" onclick="{! c.createOfferJS }"/>
     </div>
     <aura:html tag="style">

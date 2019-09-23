@@ -1,7 +1,7 @@
 <apex:page id="YandexEdaOffer" controller="YandexEdaOfferController"
            applyHtmlTag="false" applyBodyTag="false"
            showHeader="false" sidebar="false" standardStylesheets="false"
-           title="Unused Title">
+           title="Unused Title" docType="HTML-5.0">
     <apex:includeScript value="{!$Resource.jQuerry}"/>
     <apex:includeScript value="{!$Resource.maskedinput}"/>
     <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@19.8.0/dist/css/suggestions.min.css" rel="stylesheet"/>
@@ -50,6 +50,7 @@
             $("input[id*=CorAcc]").val(data.correspondent_account);
           }
         });
+
         //validation for empty field
         $("[id*=myForm]").submit( function() {
           if(($("[id*=RestName]").val().length === 0)||($("[id*=nameOrInn]").val().length === 0)
@@ -63,8 +64,10 @@
             alert("Вы не согласны с условиями");
             return false;
           }
+          $("[id*=btnSubmit]").attr("hidden", true);
         });
-        //fullfill
+
+        //auto address field
         $('[id*=value]').click(function(){
           if($("[id*=value]").prop("checked") === true){
             $("input[id*=BillingCity]").val($("input[id*=theCity]").val());
@@ -137,6 +140,7 @@
         <div class="border">
             <apex:image url="{!URLFOR($Resource.resources, 'image/Offer.png')}"/>
         </div>
+        <div class="offer-page" style= "display: {!If(hasChanged ,'none','') }">
         <apex:pageBlock>
             <table class="info">
                 <tr>
@@ -196,15 +200,16 @@
                     <tbody>
                     <tr>
                         <td><apex:outputLabel for="RestName" value="Название ресторана"/></td>
-                        <td><apex:inputText value="{!offer.RestName__c}" id="RestName"/></td>
+                        <td><apex:input value="{!RestNameStr}" id="RestName"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="nameOrInn" value="Название предприятия или ИНН"/></td>
-                        <td><apex:inputText id="nameOrInn"/></td>
+                        <td><apex:input id="nameOrInn"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="AccountFullName" value="Полное название предприятия"/></td>
-                        <td><apex:inputText id="AccountFullName" disabled="true" value="{!offer.AccountFullName__c}"/></td>
+                        <td><apex:input id="AccountFullName" value="{!AccountFullNameStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td> <apex:outputLabel value="Юридический адрес" for="the"/> </td>
@@ -215,35 +220,42 @@
                                     <td><apex:outputLabel value="Индекс" for="theIndex"/> </td>
                                 </tr>
                                 <tr>
-                                    <td><apex:inputText value="{!offer.City__c}" disabled="true" id="theCity"/></td>
-                                    <td><apex:inputText size="8" value="{!offer.Index__c}" disabled="true" id="theIndex"/></td>
+                                    <td><apex:input value="{!CityStr}" id="theCity"
+                                                    style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
+                                    <td><apex:input size="8" value="{!IndexStr}" id="theIndex"
+                                                    style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                                 </tr>
                                 <tr>
                                     <td><apex:outputLabel value="Улица" for="theStreet"/> </td>
                                     <td><apex:outputLabel  value="Дом, офис, кв." for="theApartments"/> </td>
                                 </tr>
                                 <tr>
-                                    <td><apex:inputText value="{!offer.Street__c}" disabled="true" id="theStreet"/></td>
-                                    <td><apex:inputText size="8" value="{!offer.Apartments__c}" disabled="true" id="theApartments"/></td>
+                                    <td><apex:input value="{!StreetStr}" id="theStreet"
+                                                    style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
+                                    <td><apex:input size="8" value="{!ApartmentsStr}" id="theApartments"
+                                                    style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     <tr aria-selected="false" class="slds-hint-parent">
                         <td><apex:outputLabel for="OGRN" value="ОГРН"/></td>
-                        <td><apex:inputText id="OGRN" disabled="true" value="{!offer.OGRN__c}"/></td>
+                        <td><apex:input id="OGRN" value="{!OGRNStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="INN" value="ИНН"/></td>
-                        <td><apex:inputText id="INN" disabled="true" value="{!offer.INN__c}"/></td>
+                        <td><apex:input id="INN" value="{!INNStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="KPP" value="КПП"/></td>
-                        <td><apex:inputText id="KPP" disabled="true" value="{!offer.KPP__c}"/></td>
+                        <td><apex:input id="KPP" value="{!KPPStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="NDS" value="НДС"/></td>
-                        <td><apex:selectRadio layout="pageDirection" id = "theNDS" value="{!offer.INN__c}">
+                        <td><apex:selectRadio layout="pageDirection" id = "theNDS" value="{!NDSStr}">
                                 <apex:selectOptions value="{!types}">
                                 </apex:selectOptions>
                             </apex:selectRadio>
@@ -251,31 +263,33 @@
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="BankName" value="Название Банка"/></td>
-                        <td><apex:inputText id="BankName" value="{!offer.BankName__c}"/></td>
+                        <td><apex:input id="BankName" value="{!BankNameStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="CheckingAcc" value="Расчетный счет"/></td>
-                        <td><apex:inputText id="CheckingAcc" maxLength="20" value="{!offer.CheckingAcc__c}"/></td>
+                        <td><apex:input id="CheckingAcc" size="20" value="{!CheckingAccStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="BIK" value="БИК Банка"/></td>
-                        <td><apex:inputText id="BIK" disabled="true" value="{!offer.BankBIK__c}"/></td>
+                        <td><apex:input id="BIK" value="{!BankBIKStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="CorAcc" value="Кор. Счет"/></td>
-                        <td><apex:inputText id="CorAcc" disabled="true" value="{!offer.CorAcc__c}"/></td>
+                        <td><apex:input id="CorAcc" value="{!CorAccStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="AccountingPhone" value="Телефон бухгалтерии"/></td>
-                        <td><apex:inputText id="AccountingPhone" value="{!offer.Accounting_Phone__c}"/></td>
+                        <td><apex:input id="AccountingPhone" value="{!Accounting_PhoneStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="AccountingEmail" value="Электронная почта бухгалтерии"/></td>
-                        <td><apex:inputText id="AccountingEmail" value="{!offer.AccountingEmail__c}"/></td>
+                        <td><apex:input id="AccountingEmail" value="{!AccountingEmailStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="Website" value="Сайт ресторана"/></td>
-                        <td><apex:inputText id="Website" value="{!offer.Website__c}"/></td>
+                        <td><apex:input id="Website" value="{!WebsiteStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel value="Адрес для корреспонденции"/></td>
@@ -283,24 +297,27 @@
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="BillingIndex" value="Индекс"/></td>
-                        <td><apex:inputText id="BillingIndex" value="{!offer.BillingIndex__c}"/></td>
+                        <td><apex:input id="BillingIndex" value="{!BillingIndexStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="BillingCity" value="Город"/></td>
-                        <td><apex:inputText id="BillingCity" value="{!offer.BillingCity__c}"/></td>
+                        <td><apex:input id="BillingCity" value="{!BillingCityStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="BillingAddress" value="Адрес"/></td>
-                        <td><apex:inputText id="BillingAddress" value="{!offer.BillingAddress__c}"/></td>
+                        <td><apex:input id="BillingAddress" value="{!BillingAddressStr}"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="SignerName" value="Имя подписанта"/></td>
-                        <td><apex:inputText id="SignerName" disabled="true" value="{!offer.SignerName__c}"/></td>
+                        <td><apex:input id="SignerName" value="{!SignerNameStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
                     <tr>
                         <td><apex:outputLabel for="SignerPosition" value="Должность подписанта"/></td>
-                        <td><apex:inputText id="SignerPosition" disabled="true" value="{!offer.SignerPosition__c}"/></td>
+                        <td><apex:input id="SignerPosition" value="{!SignerPositionStr}"
+                                        style="pointer-events:none; color:#AAA; background:#F5F5F5;"/></td>
                     </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -308,11 +325,13 @@
                 <apex:inputCheckbox id="valueForYes" value="{!valueForYes}"/>Подтверждаю свое ознакомление и соглашаюсь с условиями
                 <a href="https://yandex.ru/legal/oferta_connect/">Оферты на оказания услуг "Яндекс.Еда"</a>
                 <div class="button">
-                        <apex:commandButton styleClass="yel-but" action="{!save}" value="Отправить"/>
+                        <apex:commandButton styleClass="yel-but" id="btnSubmit" action="{!save}" value="Отправить"/>
                 </div>
                 <apex:outputLabel>© 2019 Яндекс</apex:outputLabel>
             </div>
-        </apex:pageBlock>
 
+            <apex:pageMessages />
+        </apex:pageBlock>
+        </div>
     </apex:form>
 </apex:page>

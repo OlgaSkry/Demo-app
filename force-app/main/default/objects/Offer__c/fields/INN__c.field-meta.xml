@@ -3,7 +3,7 @@
     <fullName>INN__c</fullName>
     <externalId>false</externalId>
     <label>ИНН</label>
-    <length>12</length>
+    <length>255</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>

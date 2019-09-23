@@ -33,7 +33,7 @@
 
   updateSelectedText: function (cmp, event) {
     var selectedRows = event.getParam('selectedRows');
-    cmp.set('v.selectedRowsCount', selectedRows.length);
+    cmp.set('v.currContactId', selectedRows[0].Id);
   },
 
   createOfferJS: function(component, event, helper) {
@@ -50,7 +50,16 @@
         component.set("v.createError", true);
         component.set("v.createConfirm", false);
       }
+
+      event.getSource().set("v.disabled", true);
     });
+
+    let email = component.get("c.sendMail");
+    email.setParams({
+      "ID" : component.get("v.currContactId"),
+      "accID" : component.get("v.recordId")
+    });
+
     $A.enqueueAction(action);
   },
 

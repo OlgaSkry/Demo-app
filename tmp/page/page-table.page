@@ -1,0 +1,95 @@
+<tr>
+    <td> <apex:outputLabel value="Юридический адрес" for="the"/> </td>
+    <td>
+        <table class="subcontainer">
+            <tr>
+                <td><apex:outputLabel value="Город" for="theCity"/> </td>
+                <td><apex:outputLabel value="Индекс" for="theIndex"/> </td>
+            </tr>
+            <tr>
+                <td><apex:input value="{!offer.City__c}" disabled="true" id="theCity"/></td>
+                <td><apex:input size="8" value="{!offer.Index__c}" disabled="true" id="theIndex"/></td>
+            </tr>
+            <tr>
+                <td><apex:outputLabel value="Улица" for="theStreet"/> </td>
+                <td><apex:outputLabel  value="Дом, офис, кв." for="theApartments"/> </td>
+            </tr>
+            <tr>
+                <td><apex:input value="{!offer.Street__c}" disabled="true" id="theStreet"/></td>
+                <td><apex:input size="8" value="{!offer.Apartments__c}" disabled="true" id="theApartments"/></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr aria-selected="false" class="slds-hint-parent">
+    <td><apex:outputLabel for="OGRN" value="ОГРН"/></td>
+    <td><apex:input id="OGRN" disabled="true" value="{!offer.OGRN__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="INN" value="ИНН"/></td>
+    <td><apex:input id="INN" disabled="true" value="{!offer.INN__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="KPP" value="КПП"/></td>
+    <td><apex:input id="KPP" disabled="true" value="{!offer.KPP__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="NDS" value="НДС"/></td>
+    <td><apex:selectRadio layout="pageDirection" id = "theNDS" value="{!offer.INN__c}">
+            <apex:selectOptions value="{!types}">
+            </apex:selectOptions>
+        </apex:selectRadio>
+    </td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="BankName" value="Название Банка"/></td>
+    <td><apex:input id="BankName" value="{!offer.BankName__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="CheckingAcc" value="Расчетный счет"/></td>
+    <td><apex:input id="CheckingAcc" maxLength="20" value="{!offer.CheckingAcc__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="BIK" value="БИК Банка"/></td>
+    <td><apex:input id="BIK" disabled="true" value="{!offer.BankBIK__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="CorAcc" value="Кор. Счет"/></td>
+    <td><apex:input id="CorAcc" disabled="true" value="{!offer.CorAcc__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="AccountingPhone" value="Телефон бухгалтерии"/></td>
+    <td><apex:input id="AccountingPhone" value="{!offer.Accounting_Phone__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="AccountingEmail" value="Электронная почта бухгалтерии"/></td>
+    <td><apex:input id="AccountingEmail" value="{!offer.AccountingEmail__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="Website" value="Сайт ресторана"/></td>
+    <td><apex:input id="Website" value="{!offer.Website__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel value="Адрес для корреспонденции"/></td>
+    <td><apex:inputCheckbox id="value" value="{!value}"/>Совпадает с юридическим</td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="BillingIndex" value="Индекс"/></td>
+    <td><apex:input id="BillingIndex" value="{!offer.BillingIndex__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="BillingCity" value="Город"/></td>
+    <td><apex:input id="BillingCity" value="{!offer.BillingCity__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="BillingAddress" value="Адрес"/></td>
+    <td><apex:input id="BillingAddress" value="{!offer.BillingAddress__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="SignerName" value="Имя подписанта"/></td>
+    <td><apex:input id="SignerName" disabled="true" value="{!offer.SignerName__c}"/></td>
+</tr>
+<tr>
+    <td><apex:outputLabel for="SignerPosition" value="Должность подписанта"/></td>
+    <td><apex:input id="SignerPosition" disabled="true" value="{!offer.SignerPosition__c}"/></td>
+</tr>
